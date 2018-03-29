@@ -42,7 +42,7 @@ function renderLinks(scene, THREE) {
   function render(links, idxToPos, linksCount) {
     var jsPos = [];
     var jsColors = [];
-    var r = 16000;
+    var r = 6000;
     var i = 0;
     var linkId = 0;
     var maxVisibleDistance = appConfig.getMaxVisibleEdgeLength();
@@ -63,9 +63,9 @@ function renderLinks(scene, THREE) {
         var toZ = idxToPos[toIdx * 3 + 2];
 
         var dist = distance(fromX, fromY, fromZ, toX, toY, toZ);
-        if (maxVisibleDistance < dist) continue;
+        //if (maxVisibleDistance < dist) continue;
         jsPos.push(fromX, fromY, fromZ, toX, toY, toZ);
-        jsColors.push(fromX / r + 0.5, fromY / r + 0.5, fromZ / r + 0.5, toX / r + 0.5, toY / r + 0.5, toZ / r + 0.5)
+        jsColors.push(fromX / r + 0.2, fromY / r + 0.2, fromZ / r + 0.2, toX / r + 0.2, toY / r + 0.2, toZ / r + 0.2)
       }
     }
 

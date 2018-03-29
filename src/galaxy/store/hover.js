@@ -42,6 +42,7 @@ function createDefaultTemplate(viewModel) {
     top: viewModel.top - 35
   };
 
+responsiveVoice.speak(viewModel.name,"Swedish Female");
   return (
       <div style={style} className='node-hover-tooltip'>
         {viewModel.name}
