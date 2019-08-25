@@ -13,7 +13,7 @@ var str = cmdArgs[0];
 var myArray = str.match(re);
 console.log(myArray);
 
-let finalStr = law[myArray[1]] 
+let finalStr = law[myArray[1]]
 if (myArray[2] != '') {
 	finalStr = finalStr + ", Kapitel " + myArray[2];
 }
@@ -23,7 +23,7 @@ if (myArray[3] != '') {
 if (myArray[4] != '') {
 	finalStr = finalStr + ", Stycke " + myArray[4];
 }
-console.log(finalStr)  
+console.log(finalStr)
 
 //console.log(law[sepLaw[0]]);
 //console.log(sepLaw[1]);

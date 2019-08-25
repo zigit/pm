@@ -41,13 +41,16 @@ function loadGraph(name, progress) {
   // todo: handle errors
   var manifestEndpoint = config.dataUrl + name;
   var galaxyEndpoint = manifestEndpoint;
+  var lawDictEndpoint = manifestEndpoint;
 
   var manifest;
+  var lawdict;
 
   return loadManifest()
     .then(loadPositions)
     .then(loadLinks)
     .then(loadLabels)
+    .then(loadLawDict)
     .then(convertToGraph);
 
   function convertToGraph() {
@@ -55,7 +58,8 @@ function loadGraph(name, progress) {
       positions: positions,
       labels: labels,
       outLinks: outLinks,
-      inLinks: inLinks
+      inLinks: inLinks,
+      lawDict: lawdict
     });
   }
 
@@ -63,6 +67,12 @@ function loadGraph(name, progress) {
     return request(manifestEndpoint + '/manifest.json?nocache=' + (+new Date()), {
       responseType: 'json'
     }).then(setManifest);
+  }
+
+  function loadLawDict() {
+    return request(lawDictEndpoint + '/law.json?nocache=' + (+new Date()), {
+      responseType: 'json'
+    }).then(setLawDict);
   }
 
   function setManifest(response) {
@@ -77,6 +87,10 @@ function loadGraph(name, progress) {
     }
     galaxyEndpoint += '/' + version;
     appConfig.setManifestVersion(version);
+  }
+
+  function setLawDict(response) {
+    lawdict = response;
   }
 
   function getFromAppConfig(manifest) {
