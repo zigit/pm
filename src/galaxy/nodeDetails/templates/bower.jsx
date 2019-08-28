@@ -6,7 +6,7 @@ export default require('maco').template(bower, React);
 function bower(props) {
   var model = props.model;
 
-  var link = 'http://bower.io/search/?q=' + encodeURIComponent(model.name);
+  var link = 'http://ferenda.lagen.nu/' + model.name;
   var linkText = model.name;
 
   return commonPackageTemplate(model, link, linkText);
