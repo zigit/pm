@@ -1,9 +1,9 @@
 import React from 'react';
 import commonPackageTemplate from './commonPackageTempalte.jsx';
 
-export default require('maco').template(bower, React);
+export default require('maco').template(sverige, React);
 
-function bower(props) {
+function sverige(props) {
   var model = props.model;
 
   var link = 'http://ferenda.lagen.nu/' + model.name;

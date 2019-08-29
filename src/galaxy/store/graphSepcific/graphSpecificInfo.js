@@ -4,6 +4,7 @@ function graphSpecificInfo(graphName) {
   switch(graphName) {
     case 'npm':
     case 'bower':
+    case 'sverige':
     case 'cpan':
     case 'cran':
     case 'composer':

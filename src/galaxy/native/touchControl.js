@@ -42,16 +42,16 @@ function createTouchControl(renderer) {
     if (!e.touches) return;
 
     if (e.touches.length > 0) {
-      wasdControls.moveState.forward = (e.touches.length === 1);
-      wasdControls.moveState.back = (e.touches.length === 2);
+      wasdControls.moveState.forward = (e.touches.length === 2);
+      wasdControls.moveState.back = (e.touches.length === 3);
       wasdControls.updateMovementVector();
     }
   }
 
   function onTouchEnd(e) {
     if (!e.touches) return;
-    wasdControls.moveState.forward = (e.touches.length === 1);
-    wasdControls.moveState.back = (e.touches.length === 2);
+    wasdControls.moveState.forward = (e.touches.length === 2);
+    wasdControls.moveState.back = (e.touches.length === 3);
     wasdControls.updateMovementVector();
   }
 }

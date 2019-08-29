@@ -5,6 +5,7 @@
 import npm from './npm.jsx';
 import gosearch from './gosearch.jsx';
 import bower from './bower.jsx';
+import sverige from './sverige.jsx';
 import composer from './composer.jsx';
 import rubygems from './rubygems.jsx';
 import cran from './cran.jsx';
@@ -22,6 +23,7 @@ export default {
   npm: npm,
   gosearch: gosearch,
   bower: bower,
+  sverige: sverige,
   composer: composer,
   rubygems: rubygems,
   github: github,

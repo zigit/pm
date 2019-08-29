@@ -13,7 +13,7 @@ function steeringIndicator(x) {
 
   x.render = function () {
     if (!showSteeringMode) return null;
-
+    if (showSteeringMode) return null;
     return (
       <div className='steering'>
         <div className='inner'></div>
