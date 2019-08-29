@@ -12,7 +12,7 @@ function searchBar(x) {
             <div className='input-group'>
               <input type='text'
                 ref='searchText'
-                className='form-control no-shadow' placeholder='enter a search term'
+                className='form-control no-shadow' placeholder='Go to: e.g 2013:460'
                 onChange={runSearch}/>
                 <span className='input-group-btn'>
                   <button className='btn' tabIndex='-1' type='button'>
