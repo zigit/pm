@@ -54,6 +54,10 @@ export default eventMirror([
   'toggleSteering',
 
   /**
+   */
+  'toggleOrbit',
+
+  /**
    * Fired when user wants to show or hide links
    */
   'toggleLinks',

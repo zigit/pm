@@ -2,6 +2,7 @@ export default {
   isModifier,
 
   H: 72,
+  O: 79,
   L: 76,
   Space: 32,
   '/': 191
