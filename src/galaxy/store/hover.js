@@ -42,12 +42,12 @@ function createDefaultTemplate(viewModel) {
     top: viewModel.top - 35
   };
 
-responsiveVoice.speak(viewModel.name,"Swedish Female");
-  return (
-      <div style={style} className='node-hover-tooltip'>
-        {viewModel.name}
-        <span className='in-degree'>{viewModel.inDegree}</span>
-        <span className='out-degree'>{viewModel.outDegree}</span>
-      </div>
-    );
+  responsiveVoice.speak(viewModel.fullName,"Swedish Female");
+    return (
+        <div style={style} className='node-hover-tooltip'>
+          {viewModel.name}
+          <span className='in-degree'>{viewModel.inDegree}</span>
+          <span className='out-degree'>{viewModel.outDegree}</span>
+        </div>
+      );
 }

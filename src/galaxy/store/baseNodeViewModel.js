@@ -11,6 +11,7 @@ function getBaseNodeViewModel(nodeId) {
 
   return {
     name: nodeInfo.name,
+    fullName: nodeInfo.fullName,
     id: nodeInfo.id,
 
     inDegree: formatNumber(nodeInfo.in),

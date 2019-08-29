@@ -4,15 +4,34 @@
 import linkFinder from './edgeFinder.js';
 export default graph;
 
+function resolveLaw(lawDict, txt) {
+
+  var re = /([0-9]+:[0-9]+)#?K?([0-9]*)P?([0-9]*)S?([0-9]*)(.*)/;
+  var myArray = txt.match(re);
+  console.log(myArray);
+
+  let finalStr = lawDict[myArray[1]]
+  if (myArray[2] != '') {
+  	finalStr = finalStr + ", Kapitel " + myArray[2];
+  }
+  if (myArray[3] != '') {
+  	finalStr = finalStr + ", Paragraf " + myArray[3];
+  }
+  if (myArray[4] != '') {
+  	finalStr = finalStr + ", Stycke " + myArray[4];
+  }
+  return finalStr
+}
+
 function graph(rawGraphLoaderData) {
-  var {labels, outLinks, inLinks, positions} = rawGraphLoaderData;
+  var {labels, outLinks, inLinks, positions, lawDict} = rawGraphLoaderData;
   var empty = [];
 
   var api = {
     getNodeInfo: getNodeInfo,
     getConnected: getConnected,
     find: find,
-    findLinks: findLinks
+    findLinks: findLinks,
   };
 
   return api;
@@ -88,6 +107,7 @@ function graph(rawGraphLoaderData) {
     return {
       id: id,
       name: labels[id],
+      fullName: resolveLaw(lawDict, labels[id]),
       out: outLinksCount,
       in : inLinksCount
     };
