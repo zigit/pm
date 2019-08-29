@@ -8,6 +8,7 @@ var defaultConfig = {
   pos: {x : 0, y: 0, z: 0 },
   lookAt: {x: 0, y: 0, z: 0, w: 1},
   showLinks: true,
+  orbit: false,
   maxVisibleDistance: 150,
   scale: 1.75,
   manifestVersion: 0
@@ -23,15 +24,18 @@ function appConfig() {
     getCameraPosition: getCameraPosition,
     getCameraLookAt: getCameraLookAt,
     getShowLinks: getShowLinks,
+    getOrbit: getOrbit,
     getScaleFactor: getScaleFactor,
     getMaxVisibleEdgeLength: getMaxVisibleEdgeLength,
     setCameraConfig: setCameraConfig,
     setShowLinks: setShowLinks,
+    setOrbit: setOrbit,
     getManifestVersion: getManifestVersion,
     setManifestVersion: setManifestVersion
   };
 
   appEvents.toggleLinks.on(toggleLinks);
+  appEvents.toggleOrbit.on(toggleOrbit);
   appEvents.queryChanged.on(queryChanged);
 
   eventify(api);
@@ -58,6 +62,10 @@ function appConfig() {
     setShowLinks(!hashConfig.showLinks);
   }
 
+  function toggleOrbit() {
+    setOrbit(!hashConfig.orbit)
+  }
+
   function getCameraLookAt() {
     return hashConfig.lookAt;
   }
@@ -66,18 +74,25 @@ function appConfig() {
     return hashConfig.showLinks;
   }
 
+  function getOrbit() {
+    return hashConfig.orbit;
+  }
+
   function queryChanged() {
     var currentHashConfig = parseFromHash(window.location.hash);
     var cameraChanged = !same(currentHashConfig.pos, hashConfig.pos) ||
                         !same(currentHashConfig.lookAt, hashConfig.lookAt);
     var showLinksChanged = hashConfig.showLinks !== currentHashConfig.showLinks;
-
+    var orbitChanged = hashConfig.orbit !== currentHashConfig.orbit;
     if (cameraChanged) {
       setCameraConfig(currentHashConfig.pos, currentHashConfig.lookAt);
       api.fire('camera');
     }
     if (showLinksChanged) {
       setShowLinks(currentHashConfig.showLinks);
+    }
+    if (orbitChanged) {
+      setOrbit(currentHashConfig.orbit);
     }
     setManifestVersion(currentHashConfig.manifestVersion);
   }
@@ -86,6 +101,13 @@ function appConfig() {
     if (linksVisible === hashConfig.showLinks) return;
     hashConfig.showLinks = linksVisible;
     api.fire('showLinks');
+    updateHash();
+  }
+
+  function setOrbit(orbiting) {
+    if (orbiting === hashConfig.orbit) return;
+    hashConfig.orbit = orbiting;
+    api.fire('orbit');
     updateHash();
   }
 
@@ -133,6 +155,7 @@ function appConfig() {
       '&ml=' + hashConfig.maxVisibleDistance +
       '&s=' + hashConfig.scale +
       '&l=' + (hashConfig.showLinks ? '1' : '0') +
+      '&o=' + (hashConfig.orbit ? '1' : '0') +
       '&v=' + hashConfig.manifestVersion;
 
     setHash(hash);
@@ -183,11 +206,13 @@ function appConfig() {
     };
 
     var showLinks = (query.l === '1');
+    var orbit = (query.o === '1');
 
     return {
       pos: normalize(pos),
       lookAt: normalize(lookAt),
       showLinks: showLinks,
+      orbit: orbit,
       maxVisibleDistance: getNumber(query.ml, defaultConfig.maxVisibleDistance),
       scale: getNumber(query.s, defaultConfig.scale),
       manifestVersion: query.v || defaultConfig.manifestVersion

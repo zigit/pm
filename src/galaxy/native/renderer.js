@@ -36,6 +36,7 @@ function sceneRenderer(container) {
   var lineView, links, lineViewNeedsUpdate;
   var queryUpdateId = setInterval(updateQuery, 200);
   var isOrbiting = false;
+  window.orbitSpeed = 16000;
   var center = new unrender.THREE.Vector3(0, 0, 0);
 
   appEvents.positionsDownloaded.on(setPositions);
@@ -52,6 +53,7 @@ function sceneRenderer(container) {
 
   appConfig.on('camera', moveCamera);
   appConfig.on('showLinks', toggleLinks);
+  appConfig.on('orbit', toggleOrbit);
 
   var api = {
     destroy: destroy
@@ -92,7 +94,7 @@ function sceneRenderer(container) {
 
   function toggleOrbit() {
     if (!renderer) return;
-    isOrbiting = !isOrbiting;
+    isOrbiting = appConfig.getOrbit();
     if(isOrbiting) {
       var pos = renderer.camera().position;
       center.x = pos.x;
@@ -125,7 +127,7 @@ function sceneRenderer(container) {
   function orbit(time) {
     if(!isOrbiting) return;
     var camera = renderer.camera();
-    var d = time / 8000;
+    var d = time / window.orbitSpeed;
     var r = 1000;
     camera.position.x = center.x + r * Math.cos(d);
     camera.position.z = center.z + r * Math.sin(d);
@@ -367,6 +369,7 @@ function sceneRenderer(container) {
     clearInterval(queryUpdateId);
     appConfig.off('camera', moveCamera);
     appConfig.off('showLinks', toggleLinks);
+    appConfig.off('orbit', toggleOrbit);
 
     // todo: app events?
   }
