@@ -35,7 +35,6 @@ function sceneRenderer(container) {
   var hitTest, lastHighlight, lastHighlightSize, cameraPosition;
   var lineView, links, lineViewNeedsUpdate;
   var queryUpdateId = setInterval(updateQuery, 200);
-  var isOrbiting = false;
   window.orbitSpeed = 16000;
   var center = new unrender.THREE.Vector3(0, 0, 0);
 
@@ -94,8 +93,8 @@ function sceneRenderer(container) {
 
   function toggleOrbit() {
     if (!renderer) return;
-    isOrbiting = appConfig.getOrbit();
-    if(isOrbiting) {
+    window.isOrbiting = appConfig.getOrbit();
+    if(window.isOrbiting) {
       var pos = renderer.camera().position;
       center.x = pos.x;
       center.y = pos.y;
@@ -125,7 +124,8 @@ function sceneRenderer(container) {
   }
 
   function orbit(time) {
-    if(!isOrbiting) return;
+    window.isOrbiting = appConfig.getOrbit();
+    if(!window.isOrbiting) return;
     var camera = renderer.camera();
     var d = time / window.orbitSpeed;
     var r = 1000;
@@ -143,6 +143,10 @@ function sceneRenderer(container) {
 
     if (!renderer) {
       renderer = unrender(container);
+      //DeviceMotionEvent.requestPermission();
+      //DeviceOrientationEvent.requestPermission();
+      //navigator.permissions.query({name:'accelerometer'});
+      //navigator.permissions.query({name:'gyroscope'});
       touchControl = createTouchControl(renderer);
       renderer.onFrame(orbit);
       moveCameraInternal();

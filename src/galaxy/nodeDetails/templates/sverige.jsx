@@ -6,7 +6,7 @@ export default require('maco').template(sverige, React);
 function sverige(props) {
   var model = props.model;
 
-  var link = 'http://ferenda.lagen.nu/' + model.name;
+  var link = 'http://lagen.nu/' + model.name;
   var linkText = model.name;
 
   return commonPackageTemplate(model, link, linkText);

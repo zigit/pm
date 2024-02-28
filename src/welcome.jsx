@@ -9,10 +9,11 @@ export default class WelcomePage extends React.Component {
         <h2>Choose your destination:</h2>
         <div className='media-list'>
         <Destination description='Svea Rikes Lag'
-                    href='#/galaxy/sverige?cx=11391&cy=-13150&cz=-14178&lx=0.1801&ly=0.8995&lz=-0.2285&lw=0.3259&ml=5000&s=1.5&l=1&v=2017-12-31T20-00-00Z'
-                    media='bower_fly_first.png'
+                    href='#/galaxy/sverige?cx=-4116&cy=4552&cz=11836&lx=0.1951&ly=-0.3009&lz=-0.9282&lw=0.0991&ml=150&s=1.75&l=1&o=0'
+                    media='lagrymden.png'
                     name='Sverige'/>
         </div>
+        <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><a href="https://responsivevoice.org">ResponsiveVoice-NonCommercial</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img title="ResponsiveVoice Text To Speech" src="https://responsivevoice.org/wp-content/uploads/2014/08/95x15.png" alt="95x15" width="95" height="15" /></a></div>
       </div>
     );
   }

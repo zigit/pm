@@ -6,7 +6,7 @@ function about() {
   <div  className='label about'>
      <a className='reset-color'
         target='_blank'
-        href="http://studioalight.com/2018/03/22/lagrymden/">About...</a>
+        href="https://studioalight.com/SpaceOfLaw.html">About...</a>
   </div>
   );
 }

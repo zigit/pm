@@ -8,7 +8,7 @@ function loadingIndicator(x) {
 
   x.render = function() {
     return scene.isLoading() ?
-        <div className='label loading'>{loadingMessage}</div> :
+        <div className='label loading'>{loadingMessage} For touchscreen use two fingers to move forward, three backwards and one to select</div> :
         null;
   };
 

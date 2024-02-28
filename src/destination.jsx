@@ -1,6 +1,6 @@
 import React from "react";
 
-const prefix = 'https://raw.githubusercontent.com/wiki/anvaka/pm/images/';
+const prefix = './';
 
 export default class Destination extends React.Component {
   setHoverOn() {

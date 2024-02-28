@@ -8,7 +8,6 @@ function resolveLaw(lawDict, txt) {
 
   var re = /([0-9]+:[0-9]+)#?K?([0-9]*)P?([0-9]*)S?([0-9]*)(.*)/;
   var myArray = txt.match(re);
-  console.log(myArray);
 
   let finalStr = lawDict[myArray[1]]
   if (myArray[2] != '') {
