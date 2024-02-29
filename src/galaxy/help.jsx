@@ -12,7 +12,7 @@ import Key from './utils/key.js';
 
 export default require('maco')(help, React);
 
-var helpWasShown = true;
+var helpWasShown = false;
 
 function help(x) {
   var graphDownloaded = false;
@@ -88,10 +88,16 @@ function help(x) {
       <td>Toggle Steering</td>
       </tr>
       <tr>
+      <td><code>O</code></td>
+      <td>Toggle Orbit mode (Zoom: S and W)</td>
       <td><code>shift</code></td>
       <td>Move faster</td>
-      <td><code>O</code></td>
-      <td>Toggle orbit mode</td>
+      </tr>
+      <tr>
+      <td><code>B</code></td>
+      <td>Toggle Search bar</td>
+      <td><code></code></td>
+      <td></td>
       </tr>
       </tbody></table>
         </div>

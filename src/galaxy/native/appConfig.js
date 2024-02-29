@@ -9,6 +9,7 @@ var defaultConfig = {
   lookAt: {x: 0, y: 0, z: 0, w: 1},
   showLinks: true,
   orbit: false,
+  showSearchBar: false,
   maxVisibleDistance: 150,
   scale: 1.75,
   manifestVersion: 0
@@ -25,17 +26,20 @@ function appConfig() {
     getCameraLookAt: getCameraLookAt,
     getShowLinks: getShowLinks,
     getOrbit: getOrbit,
+    getShowSearchBar: getShowSearchBar,
     getScaleFactor: getScaleFactor,
     getMaxVisibleEdgeLength: getMaxVisibleEdgeLength,
     setCameraConfig: setCameraConfig,
     setShowLinks: setShowLinks,
     setOrbit: setOrbit,
+    setShowSearchBar: setShowSearchBar,
     getManifestVersion: getManifestVersion,
     setManifestVersion: setManifestVersion
   };
 
   appEvents.toggleLinks.on(toggleLinks);
   appEvents.toggleOrbit.on(toggleOrbit);
+  appEvents.toggleSearchBar.on(toggleSearchBar);
   appEvents.queryChanged.on(queryChanged);
 
   eventify(api);
@@ -65,6 +69,9 @@ function appConfig() {
   function toggleOrbit() {
     setOrbit(!hashConfig.orbit)
   }
+function toggleSearchBar() {
+    setShowSearchBar(!hashConfig.showSearchBar);
+  }
 
   function getCameraLookAt() {
     return hashConfig.lookAt;
@@ -77,6 +84,9 @@ function appConfig() {
   function getOrbit() {
     return hashConfig.orbit;
   }
+function getShowSearchBar() {
+    return hashConfig.showSearchBar;
+  }
 
   function queryChanged() {
     var currentHashConfig = parseFromHash(window.location.hash);
@@ -84,6 +94,7 @@ function appConfig() {
                         !same(currentHashConfig.lookAt, hashConfig.lookAt);
     var showLinksChanged = hashConfig.showLinks !== currentHashConfig.showLinks;
     var orbitChanged = hashConfig.orbit !== currentHashConfig.orbit;
+    var showSearchBarChanged = hashConfig.showSearchBar !== currentHashConfig.showSearchBar;
     if (cameraChanged) {
       setCameraConfig(currentHashConfig.pos, currentHashConfig.lookAt);
       api.fire('camera');
@@ -93,6 +104,9 @@ function appConfig() {
     }
     if (orbitChanged) {
       setOrbit(currentHashConfig.orbit);
+    }
+if (showSearchBarChanged) {
+      setShowSearchBar(currentHashConfig.showSearchBar);
     }
     setManifestVersion(currentHashConfig.manifestVersion);
   }
@@ -107,7 +121,15 @@ function appConfig() {
   function setOrbit(orbiting) {
     if (orbiting === hashConfig.orbit) return;
     hashConfig.orbit = orbiting;
+    var hash = makehash();
+    window.history.replaceState(undefined, undefined, hash);
     api.fire('orbit');
+  }
+
+  function setShowSearchBar(searchBarVisible) {
+    if (searchBarVisible === hashConfig.showSearchBar) return;
+    hashConfig.showSearchBar = searchBarVisible;
+    api.fire('showSearchBar');
     updateHash();
   }
 
@@ -141,7 +163,16 @@ function appConfig() {
   function updateHash() {
     // TODO: This needs to be rewritten. It should not update all fields,
     // only those that modified.
-    var name = scene.getGraphName();
+    //if scene.getGraphName() is not undefined, set window.name to scene.getGraphName() and set name to scene.getGraphName()
+    if (scene.getGraphName()) {
+      window.graphname = scene.getGraphName();
+    }
+    var hash = makehash();
+    setHash(hash);
+  }
+
+  function makehash() {
+    var name =  window.graphname;
     var pos = hashConfig.pos;
     var lookAt = hashConfig.lookAt;
     var hash = '#/galaxy/' + name +
@@ -150,17 +181,17 @@ function appConfig() {
       '&cz=' + Math.round(pos.z) +
       '&lx=' + lookAt.x.toFixed(4) +
       '&ly=' + lookAt.y.toFixed(4) +
-      '&lz=' + lookAt.z.toFixed(4) +
+      '&lz=' + lookAt.z.toFixed(4) +  
       '&lw=' + lookAt.w.toFixed(4) +
       '&ml=' + hashConfig.maxVisibleDistance +
       '&s=' + hashConfig.scale +
       '&l=' + (hashConfig.showLinks ? '1' : '0') +
       '&o=' + (hashConfig.orbit ? '1' : '0') +
+      '&b=' + (hashConfig.showSearchBar ? '1' : '0') +
       '&v=' + hashConfig.manifestVersion;
-
-    setHash(hash);
+    return hash;
   }
-
+  
   function setHash(hash) {
     // I noticed Chrome address string becomes very slow if we update URL too
     // often. Thus, I'm adding small throttling here.
@@ -207,12 +238,13 @@ function appConfig() {
 
     var showLinks = (query.l === '1');
     var orbit = (query.o === '1');
-
+    var showSearchBar = (query.b === '1');
     return {
       pos: normalize(pos),
       lookAt: normalize(lookAt),
       showLinks: showLinks,
       orbit: orbit,
+      showSearchBar: showSearchBar,
       maxVisibleDistance: getNumber(query.ml, defaultConfig.maxVisibleDistance),
       scale: getNumber(query.s, defaultConfig.scale),
       manifestVersion: query.v || defaultConfig.manifestVersion

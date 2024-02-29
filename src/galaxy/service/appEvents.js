@@ -63,6 +63,11 @@ export default eventMirror([
   'toggleLinks',
 
   /**
+   * Fired when user wants to show or hide search bar
+   */
+  'toggleSearchBar',
+  
+  /**
    * Requests the application to show "Steering mode" indicator.
    */
   'showSteeringMode',

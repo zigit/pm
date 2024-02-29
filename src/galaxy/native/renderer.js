@@ -53,7 +53,13 @@ function sceneRenderer(container) {
   appConfig.on('camera', moveCamera);
   appConfig.on('showLinks', toggleLinks);
   appConfig.on('orbit', toggleOrbit);
+  appConfig.on('showSearchBar', toggleSearchBarVisibility);
 
+  if(appConfig.getShowSearchBar()) {
+    document.querySelector('.input-group').style.visibility = "visible";
+  } else {
+    document.querySelector('.input-group').style.visibility = "hidden";
+  }
   var api = {
     destroy: destroy
   };
@@ -228,6 +234,16 @@ function sceneRenderer(container) {
       lineView.toggleLinks();
     } else {
       renderLineViewIfNeeded();
+    }
+  }
+
+  function toggleSearchBarVisibility() {
+    if (!renderer) return;
+    var searchBar = document.querySelector('.input-group');
+    if (searchBar.style.visibility === 'visible') {
+      searchBar.style.visibility = 'hidden';
+    } else {
+      searchBar.style.visibility = 'visible';
     }
   }
 

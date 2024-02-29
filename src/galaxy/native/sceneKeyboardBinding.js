@@ -32,6 +32,10 @@ function sceneKeyboardBinding(container) {
       if (!e.ctrlKey && !e.metaKey) {
         events.toggleLinks.fire();
       }
+    } else if (e.which === Key.B) { // B - toggle search bar
+      if (!e.ctrlKey && !e.metaKey) {
+        events.toggleSearchBar.fire();
+      }
     } else if (e.which === Key.H || (e.which === Key['/'] && e.shiftKey)) { // 'h' or '?' key
       // Need to stop propagation, since help screen attempts to close itself
       // once user presses any key. We don't want that now, since this is
