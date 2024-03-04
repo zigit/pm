@@ -35,10 +35,10 @@ function help(x) {
 
     return (
         <div className='navigation-help'>
-          <h3>Spaceship operating manual</h3>
+          <h3>Law Spaceship operating manual</h3>
             <table><tbody>
       <tr>
-        <td colSpan="2"><code className='important-key'>mouse wheel</code></td>
+        <td colSpan="2"><code className='important-key'>mouse wheel or H</code></td>
         <td colSpan="2">show this help</td>
       </tr>
       <tr className='spacer-row'>
