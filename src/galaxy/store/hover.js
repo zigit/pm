@@ -4,6 +4,7 @@ import eventify from 'ngraph.events';
 import appEvents from '../service/appEvents.js';
 import scene from './scene.js';
 import getBaseNodeViewModel from './baseNodeViewModel.js';
+import appConfig from '../native/appConfig.js';
 
 export default hoverStore();
 
@@ -42,7 +43,9 @@ function createDefaultTemplate(viewModel) {
     top: viewModel.top - 35
   };
 
-  responsiveVoice.speak(viewModel.fullName,"Swedish Female");
+  if (appConfig.getSound()) {
+    responsiveVoice.speak(viewModel.fullName,"Swedish Female");
+  } 
     return (
         <div style={style} className='node-hover-tooltip'>
           {viewModel.name}

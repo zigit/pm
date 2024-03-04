@@ -73,6 +73,11 @@ export default eventMirror([
   'showSteeringMode',
 
   /**
+   * Fired when user wants to toggle sound on/off
+   */
+  'toggleSound',
+
+  /**
    * fired when user inputs a text into the search bar
    */
   'commandBarChanged',

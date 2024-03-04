@@ -42,6 +42,8 @@ function sceneKeyboardBinding(container) {
       // explicit request to render help
       e.stopPropagation();
       events.toggleHelp.fire();
+    } else if (e.which === Key.M) { // M - toggle sound
+      events.toggleSound.fire();
     }
     if (e.shiftKey && !lastShiftKey) {
       lastShiftKey = true;

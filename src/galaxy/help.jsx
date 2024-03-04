@@ -96,8 +96,8 @@ function help(x) {
       <tr>
       <td><code>B</code></td>
       <td>Toggle Search bar</td>
-      <td><code></code></td>
-      <td></td>
+      <td><code>M</code></td>
+      <td>Toggle Mute</td>
       </tr>
       </tbody></table>
         </div>

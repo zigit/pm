@@ -3,6 +3,7 @@ export default {
 
   H: 72,
   O: 79,
+  M: 77,
   L: 76,
   B: 66,
   Space: 32,

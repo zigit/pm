@@ -3,13 +3,13 @@ import eventify from 'ngraph.events';
 import scene from '../store/scene.js';
 import qs from 'qs';
 
-
 var defaultConfig = {
   pos: {x : 0, y: 0, z: 0 },
   lookAt: {x: 0, y: 0, z: 0, w: 1},
   showLinks: true,
   orbit: false,
   showSearchBar: false,
+  muted: false,
   maxVisibleDistance: 150,
   scale: 1.75,
   manifestVersion: 0
@@ -27,12 +27,14 @@ function appConfig() {
     getShowLinks: getShowLinks,
     getOrbit: getOrbit,
     getShowSearchBar: getShowSearchBar,
+    getSound: getSound,
     getScaleFactor: getScaleFactor,
     getMaxVisibleEdgeLength: getMaxVisibleEdgeLength,
     setCameraConfig: setCameraConfig,
     setShowLinks: setShowLinks,
     setOrbit: setOrbit,
     setShowSearchBar: setShowSearchBar,
+    setSound: setSound,
     getManifestVersion: getManifestVersion,
     setManifestVersion: setManifestVersion
   };
@@ -40,6 +42,7 @@ function appConfig() {
   appEvents.toggleLinks.on(toggleLinks);
   appEvents.toggleOrbit.on(toggleOrbit);
   appEvents.toggleSearchBar.on(toggleSearchBar);
+  appEvents.toggleSound.on(toggleSound);
   appEvents.queryChanged.on(queryChanged);
 
   eventify(api);
@@ -69,8 +72,13 @@ function appConfig() {
   function toggleOrbit() {
     setOrbit(!hashConfig.orbit)
   }
-function toggleSearchBar() {
+
+  function toggleSearchBar() {
     setShowSearchBar(!hashConfig.showSearchBar);
+  }
+
+  function toggleSound() {
+    setSound(!hashConfig.muted);
   }
 
   function getCameraLookAt() {
@@ -84,8 +92,13 @@ function toggleSearchBar() {
   function getOrbit() {
     return hashConfig.orbit;
   }
-function getShowSearchBar() {
+
+  function getShowSearchBar() {
     return hashConfig.showSearchBar;
+  }
+
+  function getSound() {
+    return hashConfig.muted;
   }
 
   function queryChanged() {
@@ -95,6 +108,7 @@ function getShowSearchBar() {
     var showLinksChanged = hashConfig.showLinks !== currentHashConfig.showLinks;
     var orbitChanged = hashConfig.orbit !== currentHashConfig.orbit;
     var showSearchBarChanged = hashConfig.showSearchBar !== currentHashConfig.showSearchBar;
+    var soundChanged = hashConfig.muted !== currentHashConfig.muted;
     if (cameraChanged) {
       setCameraConfig(currentHashConfig.pos, currentHashConfig.lookAt);
       api.fire('camera');
@@ -105,10 +119,63 @@ function getShowSearchBar() {
     if (orbitChanged) {
       setOrbit(currentHashConfig.orbit);
     }
-if (showSearchBarChanged) {
+    if (showSearchBarChanged) {
       setShowSearchBar(currentHashConfig.showSearchBar);
     }
-    setManifestVersion(currentHashConfig.manifestVersion);
+    if (soundChanged) {
+      setSound(currentHashConfig.muted);
+    }
+  }
+
+  function getSound() {
+    return hashConfig.muted;
+  }
+  
+  function getScaleFactor() {
+    return hashConfig.scale;
+  }
+
+  function getManifestVersion() {
+    return hashConfig.manifestVersion;
+  }
+
+  function getMaxVisibleEdgeLength() {
+    return hashConfig.maxVisibleDistance * hashConfig.maxVisibleDistance * hashConfig.scale;
+  }
+
+  function getCameraPosition() {
+    return hashConfig.pos;
+  }
+
+  function toggleLinks() {
+    setShowLinks(!hashConfig.showLinks);
+  }
+
+  function toggleOrbit() {
+    setOrbit(!hashConfig.orbit)
+  }
+
+  function toggleSearchBar() {
+    setShowSearchBar(!hashConfig.showSearchBar);
+  }
+
+  function toggleSound() {
+    setSound(!hashConfig.muted);
+  }
+
+  function getCameraLookAt() {
+    return hashConfig.lookAt;
+  }
+
+  function getShowLinks() {
+    return hashConfig.showLinks;
+  }
+
+  function getOrbit() {
+    return hashConfig.orbit;
+  }
+  function getShowSearchBar() {
+    return hashConfig.showSearchBar;
   }
 
   function setShowLinks(linksVisible) {
@@ -130,6 +197,14 @@ if (showSearchBarChanged) {
     if (searchBarVisible === hashConfig.showSearchBar) return;
     hashConfig.showSearchBar = searchBarVisible;
     api.fire('showSearchBar');
+    updateHash();
+  }
+
+  function setSound(muted) {
+    if (muted === hashConfig.muted) return;
+    hashConfig.muted = muted;
+    window.isMuted = muted;
+    api.fire('muted');
     updateHash();
   }
 
@@ -188,6 +263,7 @@ if (showSearchBarChanged) {
       '&l=' + (hashConfig.showLinks ? '1' : '0') +
       '&o=' + (hashConfig.orbit ? '1' : '0') +
       '&b=' + (hashConfig.showSearchBar ? '1' : '0') +
+      '&m=' + (hashConfig.muted ? '0' : '1') +
       '&v=' + hashConfig.manifestVersion;
     return hash;
   }
@@ -239,12 +315,14 @@ if (showSearchBarChanged) {
     var showLinks = (query.l === '1');
     var orbit = (query.o === '1');
     var showSearchBar = (query.b === '1');
+    var muted = (query.m === '0');
     return {
       pos: normalize(pos),
       lookAt: normalize(lookAt),
       showLinks: showLinks,
       orbit: orbit,
       showSearchBar: showSearchBar,
+      muted: muted,
       maxVisibleDistance: getNumber(query.ml, defaultConfig.maxVisibleDistance),
       scale: getNumber(query.s, defaultConfig.scale),
       manifestVersion: query.v || defaultConfig.manifestVersion
