@@ -51,6 +51,8 @@ function createDefaultTemplate(viewModel) {
           {viewModel.name}
           <span className='in-degree'>{viewModel.inDegree}</span>
           <span className='out-degree'>{viewModel.outDegree}</span>
+          {!appConfig.getSound() && <br/>}
+          {!appConfig.getSound() && viewModel.fullName}
         </div>
       );
 }
