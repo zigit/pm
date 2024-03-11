@@ -4,6 +4,7 @@
 @import "./steering.less";
 @import "./nodeDetails.less";
 @import "./search.less";
+@import "./popup.less";
 
 body {
   background-color: @background;
@@ -35,7 +36,7 @@ h4 {
 }
 
 .window-container {
-  background-color: rgba(0,0,0, 0.8);
+  background-color: rgba(0,0,0, 0.65);
   color: #7F7F7F;
   position: absolute;
 }
@@ -51,17 +52,27 @@ h4 {
 }
 
 .search-results-window {
-  left: 16px;
-  top: 47px;
+  border-radius: 2em;
+  right: 16px;
+  bottom: 85px;
   padding: 10px;
-  width: 395px;
+  width: 365px;
+}
+
+@media (max-width: @screen-sm-min) {
+  .search-results-window {
+    left: 16px;
+    bottom: 138px;
+    width: inherit;
+  }
 }
 
 .degree-results-window {
+  border-radius: 2em;
   left: 16px;
-  bottom: 87px;
+  bottom: 162px;
   padding: 10px;
-  width: 395px;
+  width: 365px;
 }
 
 .no-overflow {
@@ -92,20 +103,27 @@ h4 {
   background: @background;
   position: absolute;
   z-index: 1;
+  border-radius: 2em;
 }
 
 .loading {
   padding: 10px;
   left: 10px;
+  right: 10px;
   top: 48px;
+  text-align: left;
+  white-space: normal;
 }
 
 .about {
   padding: 10px;
   right: 10px;
-  top: 0px;
-}
+  top: 2px;
+  border-radius: 2em;
+  background: rgba(0, 0, 0, 0.6);
 
+}
+/* 
 @media (max-width: @screen-sm-min) {
   .about {
     padding: 10px;
@@ -114,7 +132,7 @@ h4 {
     top: inherit;
   }
 }
-
+ */
 .node-hover-tooltip {
   position: absolute;
   background: rgba(0, 0, 0, 0.8);
@@ -201,7 +219,8 @@ a.media {
 
 .navigation-help {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: 2em;
+  background-color: rgba(0, 0, 0, 0.65);
   padding: 7px;
   right: 20px;
   top: 50%;
@@ -213,6 +232,7 @@ a.media {
     border-bottom: 1px solid white;
     padding-bottom: 6px;
     margin-top: 2px;
+    text-align: center;
   }
   code {
     font-family: 'PT Sans', sans-serif;
@@ -233,5 +253,46 @@ a.media {
   }
   tr.spacer-row {
     border-bottom: 10px solid transparent;
+  }
+}
+
+.gly-spin {
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
   }
 }

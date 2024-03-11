@@ -100,6 +100,7 @@ export default eventMirror([
    'around',
    'queryChanged',
 
-   'accelerateNavigation'
+   'accelerateNavigation',
+   'setPopupVisibilityAndText'
 ], appEvents);
 

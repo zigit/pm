@@ -56,9 +56,9 @@ function sceneRenderer(container) {
   appConfig.on('showSearchBar', toggleSearchBarVisibility);
 
   if(appConfig.getShowSearchBar()) {
-    document.querySelector('.input-group').style.visibility = "visible";
+    document.querySelector('.search').style.visibility = "visible";
   } else {
-    document.querySelector('.input-group').style.visibility = "hidden";
+    document.querySelector('.search').style.visibility = "hidden";
   }
   var api = {
     destroy: destroy
@@ -239,7 +239,7 @@ function sceneRenderer(container) {
 
   function toggleSearchBarVisibility() {
     if (!renderer) return;
-    var searchBar = document.querySelector('.input-group');
+    var searchBar = document.querySelector('.search');
     if (searchBar.style.visibility === 'visible') {
       searchBar.style.visibility = 'hidden';
     } else {

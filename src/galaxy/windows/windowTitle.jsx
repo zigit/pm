@@ -57,7 +57,7 @@ function registerDataTemplates() {
   resource.add('SearchResultWindowViewModel', maco.template(ctx => {
     return (
       <h4 className='window-title'>
-        Found <strong>{ctx.matchesCountString}</strong> matches
+        Hittade <strong>{ctx.matchesCountString}</strong> träffar
       </h4>
     );
   }, React));

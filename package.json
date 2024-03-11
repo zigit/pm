@@ -43,6 +43,7 @@
     "css-loader": "^0.12.0",
     "extract-text-webpack-plugin": "^0.8.0",
     "file-loader": "^0.8.1",
+    "fitext": "^1.4.4",
     "history": "^1.17.0",
     "keymirror": "^0.1.1",
     "less": "^2.5.0",
@@ -59,7 +60,7 @@
     "react-router": "^1.0.3",
     "style-loader": "^0.12.2",
     "three.orientation": "^1.1.0",
-    "unrender": "git+https://github.com/anvaka/unrender.git",
+    "unrender": "git+https://github.com/studioalight/unrender.git",
     "url-loader": "^0.5.5",
     "webgl-enabled": "^1.0.3",
     "webpack": "^1.9.11"

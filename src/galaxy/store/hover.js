@@ -30,6 +30,7 @@ function hoverStore() {
     if (model === null) throw new Error('Model is not expected to be null');
 
     var hoverViewModel = getBaseNodeViewModel(model.nodeIndex);
+    window.model = model;
     hoverViewModel.left = model.mouseInfo.x;
     hoverViewModel.top = model.mouseInfo.y;
 

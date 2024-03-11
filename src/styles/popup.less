@@ -1,0 +1,52 @@
+.frame {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 2px solid green;
+    background-color: #000000d1; /* semi-transparent white */
+    transform: translate(-50%, -50%); /* center the frame */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9998; /* ensure the frame is on top */
+    transition: width 0.6s, height 0.6s, opacity 0.6s;/* add transitions for width and height */
+    overflow: hidden;
+    opacity: 0%;
+
+}
+
+.frame-visible {
+    width: 50%;
+    height: 50%;
+    transition: width 0.6s, height 0.6s, opacity 0.6s;/* add transitions for width and height */
+    visibility: visible;
+    opacity: 100%;
+}
+
+.text {
+    color: rgb(224, 224, 224);
+    //font-size: 0.8vw; /* relative to viewport width */
+    word-wrap: break-word;
+    padding: 10px; /* add some padding so text doesn't touch the frame */
+    height: 90%;
+    width: 90%;
+    white-space: normal;
+    //background-color: #7c4949d1;
+}   
+
+.close { 
+    top: 0; 
+    right: 0;
+    color: white;
+    padding: 5px;
+    z-index: 9999;
+    font-size: 1.5vw;
+    opacity: 1;
+    position: absolute;
+
+    &:hover {
+        color: red;
+    }
+}

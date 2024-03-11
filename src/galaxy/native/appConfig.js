@@ -36,7 +36,8 @@ function appConfig() {
     setShowSearchBar: setShowSearchBar,
     setSound: setSound,
     getManifestVersion: getManifestVersion,
-    setManifestVersion: setManifestVersion
+    setManifestVersion: setManifestVersion,
+    setPopupVisibilityAndText: setPopupVisibilityAndText
   };
 
   appEvents.toggleLinks.on(toggleLinks);
@@ -44,6 +45,7 @@ function appConfig() {
   appEvents.toggleSearchBar.on(toggleSearchBar);
   appEvents.toggleSound.on(toggleSound);
   appEvents.queryChanged.on(queryChanged);
+  appEvents.setPopupVisibilityAndText.on(setPopupVisibilityAndText);
 
   eventify(api);
   return api;
@@ -233,6 +235,10 @@ function appConfig() {
     hashConfig.lookAt.w = lookAt.w;
 
     updateHash();
+  }
+
+  function setPopupVisibilityAndText(isVisible, text) {
+    api.fire('setPopupVisibilityAndText', { isVisible: isVisible, text: text });
   }
 
   function updateHash() {
