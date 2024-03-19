@@ -58,6 +58,7 @@
     "react-dom": "^0.14.5",
     "react-list": "^0.7.10",
     "react-router": "^1.0.3",
+    "speechstate": "",
     "style-loader": "^0.12.2",
     "three.orientation": "^1.1.0",
     "unrender": "git+https://github.com/studioalight/unrender.git",

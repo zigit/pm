@@ -56,6 +56,10 @@ function searchBar(x) {
     document.getElementById('sendChat').classList.add('glyphicon-hourglass');
     document.getElementById('sendChat').classList.add('gly-spin');
 
+    // Function to call openai API assistant that will return a response to the chatText
+    // Initial response will be a json object with keys lagreferens and motivation and the values will be the law reference and the motivation and also the thread id that will be used to continue the conversation
+
+
     //call the API at https://gptreq.azurewebsites.net/api/getlaw with the chatText as value to statement json key in body
     //and the response will be a json object with keys lagreferens and motivation and the values will be the law reference and the motivation
     //the response will be used utter the response to the user using the speech synthesis API
@@ -67,31 +71,58 @@ function searchBar(x) {
       //scene.setPopupVisibilityAndText(true, "Tänker påtala dig för olaga intrång i min privata sfär.");
       //appEvents.setPopupVisibilityAndText.fire(true, "Tänker påtala dig för olaga intrång i min privata sfär.");
        //fire('setPopupVisibilityAndText', { isVisible: true, text: 'Hello from ButtonToShowPopup' });
-      fetch('https://gptreq.azurewebsites.net/api/getlaw', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ statement: chatText })
-      })
-        .then(response => response.json())
-        .then(data => {
-          //console.log('Success:', data);
-          //get the law reference and the motivation from the data json string
-          var parsedData = JSON.parse(data);
+       var sId = "";
+       const xhr = new XMLHttpRequest();
+       xhr.open('POST', 'https://reflagsrv.azurewebsites.net/api/lagstream', true);
+       xhr.setRequestHeader('Content-Type', 'application/json');
+       xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+       xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+       xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type');      
+       xhr.onload = function() {
+         if (xhr.status === 200) {
+           sId = JSON.parse(xhr.responseText).sId;
+           console.log("sId: ",sId);
+           window.sId = sId;
+         }
+       };
+       var body = JSON.stringify({ statement: chatText, bId: window.bId, sId: window.sId ? window.sId : "" });
+       console.log("body; ", body);
+       xhr.send(body);
+       xhr.removeEventListener('load', getLaw);
+          document.getElementById('sendChat').classList.remove('gly-spin');
+          document.getElementById('sendChat').classList.remove('glyphicon-hourglass');
+          document.getElementById('sendChat').classList.add('glyphicon-send');
+  
+    }
+    getLaw(chatText);
+
+
+
+    console.log("chatText", chatText);
+    
+    e.preventDefault();
+  }
+  source.onmessage = function (event) {
+    console.log(event.data);
+    var data = event.data;
+    var parsedData = JSON.parse(data);
           var lagreferens = parsedData.lagreferens;
           var motivation = parsedData.motivation;
           var searchResults = scene.find(lagreferens);
-          //focus on the node with the law reference if it is not undefined
+
+          //focus on the node with the law reference if it is not undefined and this.lagreferens is not same as lagreferens
           if (searchResults.length) {
+          if ( this.lagreferens !== lagreferens) {
             appEvents.focusOnNode.fire(searchResults[0].id);
-            motivation = searchResults[0].fullName + ". " + motivation;
+            this.lagreferens = lagreferens;
           }
-          appEvents.setPopupVisibilityAndText.fire(true, motivation, "");
-          console.log("lagreferens", lagreferens);
-          console.log("motivation", motivation);
-          //scene.showpopup(motivation);
-          //utter the response to the user
+          }
+        
+          // Motivation is not empty, show the motivation in the popup
+          if (parsedData.motivation !== "") {
+            appEvents.setPopupVisibilityAndText.fire(true, motivation, "");
+          }
+
           if (appConfig.getSound()) {
             //responsiveVoice.speak(motivation,"Swedish Female");
             // Get the list of voices available
@@ -120,18 +151,7 @@ function searchBar(x) {
           document.getElementById('sendChat').classList.remove('gly-spin');
           document.getElementById('sendChat').classList.remove('glyphicon-hourglass');
           document.getElementById('sendChat').classList.add('glyphicon-send');
-        }
-        )
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-    getLaw(chatText);
 
 
-
-    console.log("chatText", chatText);
-    
-    e.preventDefault();
-  }
+  };
 }

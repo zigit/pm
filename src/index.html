@@ -80,6 +80,25 @@
     const button = document.querySelector("#startit");
    
     button.addEventListener("click", onClick);
+    let bId = self.crypto.randomUUID();
+    window.bId = bId;
+    console.log("bId: " + window.bId);
+    if (typeof EventSource !== "undefined") {
+        console.log(
+          "SSE id:" +
+          bId
+        );
+        var source = new EventSource(
+          "https://tala-sse.azurewebsites.net/ssesa/" +
+          bId
+        );
+
+      } else {
+        document.getElementById("result").innerHTML =
+          "Sorry, your browser does not support server-sent events...";
+      }
+
+
    </script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126967389-1"></script>
