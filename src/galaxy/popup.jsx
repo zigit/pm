@@ -71,7 +71,7 @@ class Popup extends React.Component {
 
     return (
         <div className="frame" id="popupFrame">
-          <div className="close" onClick={this.handleClick}><span className='glyphicon glyphicon-remove'></span></div>
+          <div className="close" id="closePopupFrame" onClick={this.handleClick}><span className='glyphicon glyphicon-remove'></span></div>
           <div className="text fit-this-text">
             <div className='fitter'>
               {this.state.text}

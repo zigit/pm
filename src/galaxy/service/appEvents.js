@@ -77,6 +77,11 @@ export default eventMirror([
    */
   'toggleSound',
 
+/**
+   * Fired when user wants to toggle autopilot on/off
+   *  */
+  'toggleAutoPilot',  
+
   /**
    * fired when user inputs a text into the search bar
    */

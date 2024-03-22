@@ -6,6 +6,7 @@ export default {
   M: 77,
   L: 76,
   B: 66,
+  P: 80,
   Space: 32,
   '/': 191
 };

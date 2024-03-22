@@ -44,6 +44,8 @@ function sceneKeyboardBinding(container) {
       events.toggleHelp.fire();
     } else if (e.which === Key.M) { // M - toggle sound
       events.toggleSound.fire();
+    } else if (e.which === Key.P) { // M - toggle autopilot
+      events.toggleAutoPilot.fire();
     }
     if (e.shiftKey && !lastShiftKey) {
       lastShiftKey = true;

@@ -10,6 +10,7 @@ var defaultConfig = {
   orbit: false,
   showSearchBar: false,
   muted: false,
+  autopilot: false,
   maxVisibleDistance: 150,
   scale: 1.75,
   manifestVersion: 0
@@ -28,6 +29,7 @@ function appConfig() {
     getOrbit: getOrbit,
     getShowSearchBar: getShowSearchBar,
     getSound: getSound,
+    getAutoPilot: getAutoPilot,
     getScaleFactor: getScaleFactor,
     getMaxVisibleEdgeLength: getMaxVisibleEdgeLength,
     setCameraConfig: setCameraConfig,
@@ -35,6 +37,7 @@ function appConfig() {
     setOrbit: setOrbit,
     setShowSearchBar: setShowSearchBar,
     setSound: setSound,
+    setAutoPilot: setAutoPilot,
     getManifestVersion: getManifestVersion,
     setManifestVersion: setManifestVersion,
     setPopupVisibilityAndText: setPopupVisibilityAndText
@@ -44,6 +47,7 @@ function appConfig() {
   appEvents.toggleOrbit.on(toggleOrbit);
   appEvents.toggleSearchBar.on(toggleSearchBar);
   appEvents.toggleSound.on(toggleSound);
+  appEvents.toggleAutoPilot.on(toggleAutoPilot);
   appEvents.queryChanged.on(queryChanged);
   appEvents.setPopupVisibilityAndText.on(setPopupVisibilityAndText);
 
@@ -83,6 +87,10 @@ function appConfig() {
     setSound(!hashConfig.muted);
   }
 
+  function toggleAutoPilot() {
+    setAutoPilot(!hashConfig.autopilot);
+  }
+
   function getCameraLookAt() {
     return hashConfig.lookAt;
   }
@@ -103,6 +111,10 @@ function appConfig() {
     return hashConfig.muted;
   }
 
+  function getAutoPilot() {
+    return hashConfig.autopilot;
+  }
+
   function queryChanged() {
     var currentHashConfig = parseFromHash(window.location.hash);
     var cameraChanged = !same(currentHashConfig.pos, hashConfig.pos) ||
@@ -111,6 +123,7 @@ function appConfig() {
     var orbitChanged = hashConfig.orbit !== currentHashConfig.orbit;
     var showSearchBarChanged = hashConfig.showSearchBar !== currentHashConfig.showSearchBar;
     var soundChanged = hashConfig.muted !== currentHashConfig.muted;
+    var autopilotChanged = hashConfig.autopilot !== currentHashConfig.autopilot;
     if (cameraChanged) {
       setCameraConfig(currentHashConfig.pos, currentHashConfig.lookAt);
       api.fire('camera');
@@ -127,6 +140,10 @@ function appConfig() {
     if (soundChanged) {
       setSound(currentHashConfig.muted);
     }
+    if (autopilotChanged) {
+      setAutoPilot(currentHashConfig.autopilot);
+    }
+
   }
 
   function getSound() {
@@ -210,6 +227,15 @@ function appConfig() {
     updateHash();
   }
 
+  function setAutoPilot(autopilot) {
+    if (autopilot === hashConfig.autopilot) return;
+    hashConfig.autopilot = autopilot;
+    window.isAutoPilot = autopilot;
+    //api.fire('autopilot');
+
+    updateHash();
+  }
+
   function setManifestVersion(version) {
     if (version === hashConfig.manifestVersion) return;
     hashConfig = parseFromHash(window.location.hash);
@@ -270,6 +296,7 @@ function appConfig() {
       '&o=' + (hashConfig.orbit ? '1' : '0') +
       '&b=' + (hashConfig.showSearchBar ? '1' : '0') +
       '&m=' + (hashConfig.muted ? '0' : '1') +
+      '&a=' + (hashConfig.autopilot ? '1' : '0') + // add autopilot to hash
       '&v=' + hashConfig.manifestVersion;
     return hash;
   }
@@ -322,6 +349,7 @@ function appConfig() {
     var orbit = (query.o === '1');
     var showSearchBar = (query.b === '1');
     var muted = (query.m === '0');
+    var autopilot = (query.a === '1');
     return {
       pos: normalize(pos),
       lookAt: normalize(lookAt),
@@ -329,6 +357,7 @@ function appConfig() {
       orbit: orbit,
       showSearchBar: showSearchBar,
       muted: muted,
+      autopilot: autopilot,
       maxVisibleDistance: getNumber(query.ml, defaultConfig.maxVisibleDistance),
       scale: getNumber(query.s, defaultConfig.scale),
       manifestVersion: query.v || defaultConfig.manifestVersion

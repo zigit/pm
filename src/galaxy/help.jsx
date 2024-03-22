@@ -99,6 +99,12 @@ function help(x) {
       <td><code>M</code></td>
       <td>Toggle Mute</td>
       </tr>
+      <tr>
+      <td><code>P</code></td>
+      <td>Toggle Autopilot</td>
+      <td><code></code></td>
+      <td></td>
+      </tr>
       </tbody></table>
         </div>
         );

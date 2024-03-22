@@ -30,7 +30,7 @@ function graph(rawGraphLoaderData) {
     getNodeInfo: getNodeInfo,
     getConnected: getConnected,
     find: find,
-    findLinks: findLinks,
+    findLinks: findLinks
   };
 
   return api;
