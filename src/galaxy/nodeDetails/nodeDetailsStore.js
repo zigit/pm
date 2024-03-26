@@ -8,6 +8,7 @@ import DegreeWindowViewModel from './degreeWindowViewModel.js';
 import getBaseNodeViewModel from '../store/baseNodeViewModel.js';
 
 import eventify from 'ngraph.events';
+import appConfig from '../native/appConfig.js';
 
 export default nodeDetailsStore();
 
@@ -29,6 +30,13 @@ function nodeDetailsStore() {
   function updateDetails(nodeId) {
     currentNodeId = nodeId;
     updateDegreeDetails(currentNodeId, currentConnectionType);
+    if (appConfig.getAutoPilot()) {
+    appEvents.highlightDestinationNode.fire(currentNodeId*3);
+    appEvents.nodeHover.fire({
+      nodeIndex: currentNodeId,
+      mouseInfo: {x:window.innerWidth/2, y:window.innerHeight/2}
+    });
+  }
   }
 
   function updateDegreeDetails(id, connectionType) {

@@ -35,6 +35,7 @@ function searchBar(x) {
             <div className='input-group'>
               <input type='text'
                 ref='searchText'
+                id='searchText'
                 className='form-control no-shadow' placeholder='Gå till: t.ex 1994:1219'
                 onChange={runSearch}/>
                 <span className='input-group-btn'>
@@ -49,6 +50,7 @@ function searchBar(x) {
             <div className='input-group chat'>
                 <input type='text'
                 ref='chatText'
+                id='chatText'
                 className='form-control no-shadow' placeholder='Jag undrar...'/>
                 <span className='input-group-btn'>
                   <button className='btn' tabIndex='-1' type='submit'>
@@ -171,7 +173,7 @@ function searchBar(x) {
             // Filter for English voices
             let swedishVoices = voices.filter(voice => voice.lang.includes('sv'));
 
-            // Choose the first English voice
+            // Choose the first Swedish voice
             let selectedVoice = swedishVoices[0];
 
             // Create a new speechSynthesisUtterance object
@@ -197,6 +199,14 @@ function searchBar(x) {
   
   curated.onmessage = function (event) {
     if (appConfig.getAutoPilot()) {
+    appEvents.hideHelp.fire();
+    appEvents.hideSearchBar.fire();
+    document.getElementById("startit").style.visibility = "hidden";
+    appEvents.nodeHover.fire({
+      nodeIndex: undefined,
+      mouseInfo: undefined
+    });
+
     console.log(event);
     var data = event.data;
     var parsedData = JSON.parse(data);
@@ -229,8 +239,10 @@ function searchBar(x) {
             appEvents.setPopupVisibilityAndText.fire(true, motivation, "");
           }
 
-          if (appConfig.getSound()) {
+          if (appConfig.getSound() && appConfig.getAutoPilot()) {
             //responsiveVoice.speak(motivation,"Swedish Female");
+
+            console.log("curated: ", searchResults[0].fullName);
             // Get the list of voices available
             let voices = window.speechSynthesis.getVoices();
 

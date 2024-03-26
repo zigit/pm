@@ -115,6 +115,7 @@ function help(x) {
     appEvents.graphDownloaded.on(showHelpIfNeeded);
     appEvents.downloadGraphRequested.on(resetHelp);
     appEvents.toggleHelp.on(toggleHelp);
+    appEvents.hideHelp.on(hideHelp);
 
     listenToKeys();
     listenToWheel();
@@ -125,6 +126,7 @@ function help(x) {
     appEvents.graphDownloaded.off(showHelpIfNeeded);
     appEvents.downloadGraphRequested.off(resetHelp);
     appEvents.toggleHelp.off(toggleHelp);
+    appEvents.hideHelp.on(hideHelp);
 
     releaseKeyListener();
     releaseWheel();
@@ -139,6 +141,11 @@ function help(x) {
 
   function toggleHelp() {
     helpWasShown = !helpWasShown;
+    x.forceUpdate();
+  }
+ 
+  function hideHelp() {
+    helpWasShown = true;
     x.forceUpdate();
   }
 

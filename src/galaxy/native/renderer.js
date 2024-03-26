@@ -46,6 +46,7 @@ function sceneRenderer(container) {
   appEvents.around.on(around);
   appEvents.highlightQuery.on(highlightQuery);
   appEvents.highlightLinks.on(highlightLinks);
+  appEvents.highlightDestinationNode.on(highlightDestinationNode);
   appEvents.accelerateNavigation.on(accelarate);
   appEvents.focusScene.on(focusScene);
   appEvents.cls.on(cls);
@@ -131,7 +132,7 @@ function sceneRenderer(container) {
 
   function orbit(time) {
     window.isOrbiting = appConfig.getOrbit();
-    if(!window.isOrbiting) return;
+    if(!window.isOrbiting || appConfig.getAutoPilot()) return;
     var camera = renderer.camera();
     var d = time / window.orbitSpeed;
     var r = 1000;
@@ -298,6 +299,28 @@ function sceneRenderer(container) {
   }
 
   function highlightNode(nodeIndex) {
+    var view = renderer.getParticleView();
+    var colors = view.colors();
+    var sizes = view.sizes();
+
+    if (lastHighlight !== undefined) {
+      colorNode(lastHighlight, colors, defaultNodeColor);
+      sizes[lastHighlight/3] = lastHighlightSize;
+    }
+
+    lastHighlight = nodeIndex;
+
+    if (lastHighlight !== undefined) {
+      colorNode(lastHighlight, colors, highlightNodeColor);
+      lastHighlightSize = sizes[lastHighlight/3];
+      sizes[lastHighlight/3] *= 1.5;
+    }
+
+    view.colors(colors);
+    view.sizes(sizes);
+  }
+
+  function highlightDestinationNode(nodeIndex) {
     var view = renderer.getParticleView();
     var colors = view.colors();
     var sizes = view.sizes();

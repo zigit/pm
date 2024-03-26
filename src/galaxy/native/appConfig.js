@@ -46,6 +46,7 @@ function appConfig() {
   appEvents.toggleLinks.on(toggleLinks);
   appEvents.toggleOrbit.on(toggleOrbit);
   appEvents.toggleSearchBar.on(toggleSearchBar);
+  appEvents.hideSearchBar.on(hideSearchBar);
   appEvents.toggleSound.on(toggleSound);
   appEvents.toggleAutoPilot.on(toggleAutoPilot);
   appEvents.queryChanged.on(queryChanged);
@@ -176,6 +177,10 @@ function appConfig() {
 
   function toggleSearchBar() {
     setShowSearchBar(!hashConfig.showSearchBar);
+  }
+
+  function hideSearchBar() {
+    setShowSearchBar(false);
   }
 
   function toggleSound() {

@@ -66,6 +66,11 @@ export default eventMirror([
    * Fired when user wants to show or hide search bar
    */
   'toggleSearchBar',
+
+  /**
+   * Fired when user wants to hide search bar
+   * */
+  'hideSearchBar',
   
   /**
    * Requests the application to show "Steering mode" indicator.
@@ -91,6 +96,16 @@ export default eventMirror([
    * fired when user requesed to show or hide help screen
    */
   'toggleHelp',
+
+  /**
+   * Fired when user wants to hide help screen
+   */
+  'hideHelp',
+
+  /**
+   * Fired when the destination node is to be highlighted
+   */
+   'highlightDestinationNode',
 
   // These events are not documented since I'm not sure whether to keep them
    'showNodeListWindow',

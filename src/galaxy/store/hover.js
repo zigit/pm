@@ -8,6 +8,7 @@ import appConfig from '../native/appConfig.js';
 
 export default hoverStore();
 
+var lastnodeIndex = -1;
 function hoverStore() {
   var store = {};
   eventify(store);
@@ -44,8 +45,43 @@ function createDefaultTemplate(viewModel) {
     top: viewModel.top - 35
   };
 
-  if (appConfig.getSound()) {
-    responsiveVoice.speak(viewModel.fullName,"Swedish Female");
+
+  // console.log("hover: ",(appConfig.getSound()) );
+  // console.log("index: ",(viewModel.nodeIndex !== lastnodeIndex) );
+  // console.log("speaking: ",window.speechSynthesis.speaking );
+  // console.log("id: ",viewModel.id );
+
+  // console.log("lastnodeIndex: ",lastnodeIndex );
+  // console.log("add: ",(appConfig.getSound() && viewModel.id !== lastnodeIndex && !window.speechSynthesis.speaking) );
+  // console.log("acc: ", viewModel.mouseInfo);
+  // console.log("active element: ",document.activeElement);
+  // console.log("active chatText: ",document.getElementById('chatText'));
+  // console.log("not active Text: ",!(document.activeElement === document.getElementById('chatText') || document.activeElement === document.getElementById('searchText')));
+  
+
+
+  if (appConfig.getSound() && !appConfig.getAutoPilot() && viewModel.id !== lastnodeIndex && !window.speechSynthesis.speaking && !(document.activeElement === document.getElementById('chatText') || document.activeElement === document.getElementById('searchText'))) {
+    lastnodeIndex = viewModel.id;
+    // Get the list of voices available
+    let voices = window.speechSynthesis.getVoices();
+
+    // Filter for English voices
+    let swedishVoices = voices.filter(voice => voice.lang.includes('sv'));
+
+    // Choose the first Swedish voice
+    let selectedVoice = swedishVoices[0];
+
+    // Create a new speechSynthesisUtterance object
+    let utterance = new SpeechSynthesisUtterance(viewModel.fullName);
+
+    // Set the voice
+    utterance.voice = selectedVoice;
+
+    // Set the language (optional, defaults to the language of the chosen voice)
+    utterance.lang = 'sv-SE';
+
+    // Speak the text
+    window.speechSynthesis.speak(utterance);
   } 
     return (
         <div style={style} className='node-hover-tooltip'>
